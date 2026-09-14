@@ -24,9 +24,9 @@ void zeraMatriz (int vetor[]) {
 void imprimeMatriz (int vetor[]) {
     int k, i, acesso;
 	for(k = 0; k < linhas; k++){
-		for(i = 0; k < colunas; k++){
+		for(i = 0; i < colunas; i++){
 			acesso = k * colunas + i;
-			printf("%d", vetor[acesso]);
+			printf("%d ", vetor[acesso]);
 		}
 		printf("\n");
 	}
