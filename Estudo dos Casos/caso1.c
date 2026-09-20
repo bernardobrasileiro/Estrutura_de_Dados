@@ -14,18 +14,25 @@ void dimensionaMatriz (int lin, int col){
     colunas = col;
 }
 
+int calculok (int lin, int col){
+	return (lin - 1) * colunas + (col - 1);
+}
+
 void zeraMatriz (int vetor[]) {
-    int k;
-    for(k = 0; k < linhas * colunas; k++){
-        vetor[k] == 0;
+    int k, i, acesso;
+    for(k = 1; k <= linhas; k++){
+        for(i = 1; i <= colunas; i++){
+			acesso = calculok(k, i);
+			vetor[acesso] = 0;
+		}
     }
 }
 
 void imprimeMatriz (int vetor[]) {
     int k, i, acesso;
-	for(k = 0; k < linhas; k++){
-		for(i = 0; i < colunas; i++){
-			acesso = k * colunas + i;
+	for(k = 1; k <= linhas; k++){
+		for(i = 1; i <= colunas; i++){
+			acesso = calculok(k, i);
 			printf("%d ", vetor[acesso]);
 		}
 		printf("\n");
@@ -33,21 +40,21 @@ void imprimeMatriz (int vetor[]) {
 }
 
 void adicionaElemento (int vetor[], int num, int lin, int col){
-	int acesso;
-	acesso = (lin - 1) * colunas + (col - 1);
+	int acesso = calculok(lin, col);
 	vetor[acesso] = num;
 }
 
 int buscaElemento (int vetor[], int lin, int col){
-	int acesso;
-	acesso = (lin - 1) * colunas + (col - 1);
-	return vetor[acesso];
+	return vetor[calculok(lin, col)];
 }
 
 void somaMatriz (int vetor1[], int vetor2[], int resultado[]) {
-	int k;
-	for(k = 0; k < linhas * colunas; k++){
-		resultado[k] = vetor1[k] + vetor2[k];
+	int k, i, acesso;
+	for(k = 1; k <= linhas; k++){
+		for(i = 1; i <= colunas; i++){
+			acesso = calculok(k, i);
+			resultado[acesso] = vetor1[acesso] + vetor2[acesso];
+		}
 	}
 }
 
