@@ -18,46 +18,113 @@ int calculok (int lin, int col){
 	return (lin - 1) * colunas + (col - 1);
 }
 
-void zeraMatriz (int vetor[]) {
-    int k, i, acesso;
+void adicionaElemento (int vetor[], int num, int lin, int col){
+	vetor[calculok(lin, col)] = num;
+}
+
+void zeraMatriz (int vetor[]){
+    int k, i;
     for(k = 1; k <= linhas; k++){
         for(i = 1; i <= colunas; i++){
-			acesso = calculok(k, i);
-			vetor[acesso] = 0;
+			adicionaElemento(vetor, 0, k, i);
 		}
     }
 }
 
-void imprimeMatriz (int vetor[]) {
-    int k, i, acesso;
+void preencherMatriz(int vetor[]){
+	int num;
+	for(int k = 1; k <= colunas; k++){
+		for(int i = 1; i <= colunas; i++){
+			scanf("%d", &num);
+			adicionaElemento(vetor, num, k, i);
+		}
+	}
+}
+
+int buscaElemento(int vetor[], int lin, int col){
+	return vetor[calculok(lin, col)];
+}
+
+void imprimeMatriz(int vetor[]){
+    int k, i;
 	for(k = 1; k <= linhas; k++){
 		for(i = 1; i <= colunas; i++){
-			acesso = calculok(k, i);
-			printf("%d ", vetor[acesso]);
+			printf("%d ", buscaElemento(vetor, k, i));
 		}
 		printf("\n");
 	}
 }
 
-void adicionaElemento (int vetor[], int num, int lin, int col){
-	int acesso = calculok(lin, col);
-	vetor[acesso] = num;
-}
-
-int buscaElemento (int vetor[], int lin, int col){
-	return vetor[calculok(lin, col)];
-}
-
-void somaMatriz (int vetor1[], int vetor2[], int resultado[]) {
-	int k, i, acesso;
+void somaMatriz(int vetor1[], int vetor2[], int resultado[]) {
+	int k, i, soma;
 	for(k = 1; k <= linhas; k++){
 		for(i = 1; i <= colunas; i++){
-			acesso = calculok(k, i);
-			resultado[acesso] = vetor1[acesso] + vetor2[acesso];
+			soma = buscaElemento(vetor1, k, i) + buscaElemento(vetor2, k, i);
+			adicionaElemento(resultado, soma, k, i);
 		}
 	}
 }
 
+//Questão 1
+//i
+int contarEntradas(int vetor[], int cidade){
+	int cont = 0;
+	for(int k = 1; k <= colunas; k++){
+		if(k != cidade && buscaElemento(vetor, k, cidade)){
+			cont++;
+		}
+	}
+	return cont;
+}
+
+int contarSaidas(int vetor[], int cidade){
+	int cont = 0;
+	for(int k = 1; k <= colunas; k++){
+		if(k != cidade && buscaElemento(vetor, cidade, k)){
+			cont++;
+		}
+	}
+	return cont;
+}
+
+void cidadesIsoladas(int vetor[]){
+	int encontrada = 0;
+	for(int k = 1; k <= colunas; k++){
+		if(contarSaidas(vetor, k) == 0 && contarEntradas(vetor, k) == 0){
+			printf("--Cidade %d isolada--\n", k);
+			encontrada = 1;
+		}
+	}
+	if (encontrada == 0){
+		printf("--Nenhuma cidade isolada--\n");
+	}
+}
+//ii
+void semSaidaComEntrada(int vetor[]){
+	int encontrada = 0;
+	for(int k = 1; k <= colunas; k++){
+		if(contarSaidas(vetor, k) == 0 && contarEntradas(vetor, k) > 0){
+			printf("--Cidade %d não ha saida apesar de haver entrada--\n", k);
+			encontrada = 1;
+		}	
+	}
+	if(encontrada == 0){
+		printf("--Nenhuma cidade sem saida e que possua entrada--\n");
+	}
+}
+//iii
+void comSaidaSemEntrada(int vetor[]){
+	int encontrada = 0;
+	for(int k = 1; k <= colunas; k++){
+		if(contarSaidas(vetor, k) > 0 && contarEntradas(vetor, k) == 0){
+			printf("--Cidade %d ha saida e não ha entrada--\n", k);
+			encontrada = 1;
+		}
+	}
+	if(encontrada == 0){
+		printf("--Nenhuma cidade com saida e que não possua entrada--\n");
+	}
+}
 int main(){
 
 	//dimensiona a matriz
@@ -110,6 +177,29 @@ int main(){
 	//imprime o resultado da soma
 	printf("Soma das matrizes:\n");
 	imprimeMatriz(vetResultado);
+
+	int ordem;
+	printf("\n--Insira a ordem da matriz para a resolução das questões--\n");
+	scanf("%d", &ordem);
+	dimensionaMatriz(ordem, ordem);
+	tam = linhas * colunas;
+
+	printf("\n--Preencha a matriz--\n");
+	int vet3[tam];
+	preencherMatriz(vet3);
+	
+	//Questão 1
+	//i
+	printf("\n--Verificando se ha cidades isoladas--\n");
+	cidadesIsoladas(vet3);
+
+	//ii
+	printf("\n--Verificando cidades sem saida, apesar de haver entrada--\n ");
+	semSaidaComEntrada(vet3);
+
+	//iii
+	printf("\n--Verificando cidades com saida, apesar de não haver entrada--\n ");
+	semSaidaComEntrada(vet3);
 
     return 0;
 }
