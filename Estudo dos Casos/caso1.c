@@ -137,26 +137,26 @@ void maisEntradas(int vetor[]){
 //v
 void saidasDiretasParaK(int vetor[], int k){
     for(int i = 1; i <= linhas; i++){
-        if(i != k && buscaElemento(vetor, i, k) == 1){
+        if(i != k && buscaElemento(vetor, i, k) != 0){
             printf("Cidade %d\n", i);
         }
     }
 }
 //vi
 void verificaRoteiro(int vetor[], int roteiro[], int m){
-	int possivel = 1;
-	for(int i = 1; i <= m - 1; i++){
-		if(buscaElemento(vetor, roteiro[i], roteiro[i+1]) == 0){
-			possivel = 0;
-		}
-	}
-	
-	if(possivel == 1){
-		printf("\nRoteiro possivel\n");
-	}
-	else{
-		printf("\nRoteiro impossivel\n");
-	}
+    int possivel = 1;
+    for(int i = 0; i < m - 1; i++){
+        if(buscaElemento(vetor, roteiro[i], roteiro[i + 1]) == 0){
+            possivel = 0;
+        }
+    }
+
+    if(possivel == 1){
+        printf("\nRoteiro possivel\n");
+    }
+    else{
+        printf("\nRoteiro impossivel\n");
+    }
 }
 //Questão 2
 void multiplicaMatriz(int vetor1[], int vetor2[], int resultado[]){
@@ -279,12 +279,15 @@ int main(){
 
 	//vi
 	int m;
+
 	printf("\n--Insira o tamanho do roteiro--\n");
 	scanf("%d", &m);
 
 	int roteiro[m];
+
 	printf("--Insira o roteiro (sequência de cidades, de 1 a %d)--\n", ordem);
-	for(int k = 1; k <= m; k++){
+
+	for(int k = 0; k < m; k++){
 	    scanf("%d", &roteiro[k]);
 	}
 
