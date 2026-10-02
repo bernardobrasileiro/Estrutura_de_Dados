@@ -22,31 +22,23 @@ void adicionaElemento (int vetor[], int num, int lin, int col){
 	vetor[calculok(lin, col)] = num;
 }
 
-void zeraMatriz (int vetor[]){
-    for(int k = 1; k <= linhas; k++){
-        for(int i = 1; i <= colunas; i++){
+int buscaElemento (int vetor[], int lin, int col){
+	return vetor[calculok(lin, col)];
+}
+
+void zeraMatriz (int vetor[]) {
+    int k, i;
+    for(k = 1; k <= linhas; k++){
+        for(i = 1; i <= colunas; i++){
 			adicionaElemento(vetor, 0, k, i);
 		}
     }
 }
 
-void preencherMatriz(int vetor[]){
-	int num;
-	for(int k = 1; k <= linhas; k++){
-		for(int i = 1; i <= colunas; i++){
-			scanf("%d", &num);
-			adicionaElemento(vetor, num, k, i);
-		}
-	}
-}
-
-int buscaElemento(int vetor[], int lin, int col){
-	return vetor[calculok(lin, col)];
-}
-
-void imprimeMatriz(int vetor[]){
-	for(int k = 1; k <= linhas; k++){
-		for(int i = 1; i <= colunas; i++){
+void imprimeMatriz (int vetor[]) {
+    int k, i;
+	for(k = 1; k <= linhas; k++){
+		for(i = 1; i <= colunas; i++){
 			printf("%d ", buscaElemento(vetor, k, i));
 		}
 		printf("\n");
@@ -54,143 +46,15 @@ void imprimeMatriz(int vetor[]){
 }
 
 void somaMatriz(int vetor1[], int vetor2[], int resultado[]) {
-	int soma;
-	for(int k = 1; k <= linhas; k++){
-		for(int i = 1; i <= colunas; i++){
+	int k, i, soma;
+	for(k = 1; k <= linhas; k++){
+		for(i = 1; i <= colunas; i++){
 			soma = buscaElemento(vetor1, k, i) + buscaElemento(vetor2, k, i);
 			adicionaElemento(resultado, soma, k, i);
 		}
 	}
 }
 
-//Questão 1
-//i
-int contarEntradas(int vetor[], int cidade){
-	int cont = 0;
-	for(int k = 1; k <= colunas; k++){
-		if(k != cidade && buscaElemento(vetor, k, cidade)){
-			cont++;
-		}
-	}
-	return cont;
-}
-
-int contarSaidas(int vetor[], int cidade){
-	int cont = 0;
-	for(int k = 1; k <= colunas; k++){
-		if(k != cidade && buscaElemento(vetor, cidade, k)){
-			cont++;
-		}
-	}
-	return cont;
-}
-
-void cidadesIsoladas(int vetor[]){
-	int encontrada = 0;
-	for(int k = 1; k <= colunas; k++){
-		if(contarSaidas(vetor, k) == 0 && contarEntradas(vetor, k) == 0){
-			printf("--Cidade %d isolada--\n", k);
-			encontrada = 1;
-		}
-	}
-	if (encontrada == 0){
-		printf("--Nenhuma cidade isolada--\n");
-	}
-}
-//ii
-void semSaidaComEntrada(int vetor[]){
-	int encontrada = 0;
-	for(int k = 1; k <= colunas; k++){
-		if(contarSaidas(vetor, k) == 0 && contarEntradas(vetor, k) > 0){
-			printf("--Cidade %d não ha saida apesar de haver entrada--\n", k);
-			encontrada = 1;
-		}	
-	}
-	if(encontrada == 0){
-		printf("--Nenhuma cidade sem saida e que possua entrada--\n");
-	}
-}
-//iii
-void comSaidaSemEntrada(int vetor[]){
-	int encontrada = 0;
-	for(int k = 1; k <= colunas; k++){
-		if(contarSaidas(vetor, k) > 0 && contarEntradas(vetor, k) == 0){
-			printf("--Cidade %d ha saida e não ha entrada--\n", k);
-			encontrada = 1;
-		}
-	}
-	if(encontrada == 0){
-		printf("--Nenhuma cidade com saida e que não possua entrada--\n");
-	}
-}
-//iv
-void maisEntradas(int vetor[]){
-	int cont = 0, cidade = 1;
-	for(int k = 1; k <= colunas; k++){
-		if(contarEntradas(vetor, k) > cont){
-			cont = contarEntradas(vetor, k);
-			cidade = k;
-		}
-	}
-	printf("--Cidade %d chega o maior número de estradas--\n", cidade);
-}
-//v
-void saidasDiretasParaK(int vetor[], int k){
-    for(int i = 1; i <= linhas; i++){
-        if(i != k && buscaElemento(vetor, i, k) != 0){
-            printf("Cidade %d\n", i);
-        }
-    }
-}
-//vi
-void verificaRoteiro(int vetor[], int roteiro[], int m){
-    int possivel = 1;
-    for(int i = 0; i < m - 1; i++){
-        if(buscaElemento(vetor, roteiro[i], roteiro[i + 1]) == 0){
-            possivel = 0;
-        }
-    }
-
-    if(possivel == 1){
-        printf("\nRoteiro possivel\n");
-    }
-    else{
-        printf("\nRoteiro impossivel\n");
-    }
-}
-//Questão 2
-void multiplicaMatriz(int vetor1[], int vetor2[], int resultado[]){
-	for(int i = 1; i <= linhas; i++){
-		for(int j = 1; j <= colunas; j++){
-			int soma = 0;
-			for(int k = 1; k <= colunas; k++){
-				soma = soma + buscaElemento(vetor1, i, k) * buscaElemento(vetor2, k, j);
-			}
-			adicionaElemento(resultado, soma, i, j);
-		}
-	}
-}
-
-int ehIdentidade(int vetor[]){
-	for(int i = 1; i <= linhas; i++){
-		for(int j = 1; j <= colunas; j++){
-			int esperado = (i == j) ? 1 : 0;
-			if(buscaElemento(vetor, i, j) != esperado){
-				return 0;
-			}
-		}
-	}
-	return 1;
-}
-
-int ehInversa(int vetorA[], int vetorB[]){
-	int tam = linhas * colunas;
-	int produto[tam];
-
-	multiplicaMatriz(vetorA, vetorB, produto);
-
-	return ehIdentidade(produto);
-}
 int main(){
 
 	//dimensiona a matriz
@@ -243,73 +107,6 @@ int main(){
 	//imprime o resultado da soma
 	printf("Soma das matrizes:\n");
 	imprimeMatriz(vetResultado);
-
-	int ordem;
-	printf("\n--Insira a ordem da matriz para a resolução da questão 1--\n");
-	scanf("%d", &ordem);
-	dimensionaMatriz(ordem, ordem);
-	tam = linhas * colunas;
-
-	printf("\n--Preencha a matriz--\n");
-	int vet3[tam];
-	preencherMatriz(vet3);
-	
-	//Questão 1
-	//i
-	printf("\n--Verificando se ha cidades isoladas--\n");
-	cidadesIsoladas(vet3);
-
-	//ii
-	printf("\n--Verificando cidades sem saida, apesar de haver entrada--\n");
-	semSaidaComEntrada(vet3);
-
-	//iii
-	printf("\n--Verificando cidades com saida, apesar de não haver entrada--\n");
-	comSaidaSemEntrada(vet3);
-
-	//iv
-	printf("\n--Verificando qual cidade que chega o meior número de estradas--\n");
-	maisEntradas(vet3);
-	
-	//v
-	int num;
-	printf("\n--Insira uma cidade K, para verificar as cidades que possuem saida direta para K--\n");
-	scanf("%d", &num);
-	saidasDiretasParaK(vet3, num);
-
-	//vi
-	int m;
-
-	printf("\n--Insira o tamanho do roteiro--\n");
-	scanf("%d", &m);
-
-	int roteiro[m];
-
-	printf("--Insira o roteiro (sequência de cidades, de 1 a %d)--\n", ordem);
-
-	for(int k = 0; k < m; k++){
-	    scanf("%d", &roteiro[k]);
-	}
-
-	verificaRoteiro(vet3, roteiro, m);
-
-	//Questão 2
-	printf("\n--Questao 2: Verificar se B e a inversa de A--\n");
-
-	printf("--Preencha a matriz A (ordem %d)--\n", ordem);
-	int vetA[tam];
-	preencherMatriz(vetA);
-
-	printf("--Preencha a matriz B (ordem %d)--\n", ordem);
-	int vetB[tam];
-	preencherMatriz(vetB);
-
-	if(ehInversa(vetA, vetB) == 1){
-		printf("B e a inversa de A!\n");
-	}
-	else{
-		printf("B NAO e a inversa de A.\n");
-	}
 
     return 0;
 }
