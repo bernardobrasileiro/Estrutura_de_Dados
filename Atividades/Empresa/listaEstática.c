@@ -266,7 +266,7 @@ int main(){
 
     do{
         printf("----------------------------------\n");
-        printf("%d de %d funcionarios cadastrados (arquivo: %s)\n", n, QUANTIDADE, ARQUIVO);
+        printf("%d funcionarios carregados de %s\n", n, ARQUIVO);
         printf("----------------------------------\n");
         printf("0 = Encerrar\n1 = Adicionar funcionario\n2 = Remover funcionario\n");
         printf("3 = Imprimir ficha de funcionario\n4 = Excluir todos\n5 = Listar todos\n");
